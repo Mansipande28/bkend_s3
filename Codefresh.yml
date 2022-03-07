@@ -1,6 +1,3 @@
-# More examples of Codefresh YAML can be found at
-# https://codefresh.io/docs/docs/yaml-examples/examples/
-
 version: "1.0"
 # Stages can help you organize your steps in stages
 stages:
@@ -16,7 +13,7 @@ steps:
   clone:
     title: "Cloning repository"
     type: "git-clone"
-    repo: "rohitagarwal210895/terraform_demo"
+    repo: "Mansipande28/bkend_s3"
     # CF_BRANCH value is auto set when pipeline is triggered
     # Learn more at codefresh.io/docs/docs/codefresh-yaml/variables/
     revision: "${{CF_BRANCH}}"
@@ -34,7 +31,7 @@ steps:
   plan:
     title: Terraform Plan
     type: freestyle
-    working_directory: './terraform_demo'
+    working_directory: './bkend_s3'
     arguments:
       image: 'hashicorp/terraform'
       commands:
@@ -51,7 +48,7 @@ steps:
   deploy:
     title: Terraform Apply
     type: freestyle
-    working_directory: './terraform_demo'
+    working_directory: './bkend_s3'
     arguments:
       image: 'hashicorp/terraform'
       commands:
@@ -65,24 +62,4 @@ steps:
 
     stage: "deploy"
 
-  askForPermissionForDestroy:
-   type: pending-approval
-   title: Terraform Destroy ?
-   stage: approval for destroy
-
-  destroy:
-    title: Terraform Destroy
-    type: freestyle
-    working_directory: './terraform_demo'
-    arguments:
-      image: 'hashicorp/terraform'
-      commands:
-        - terraform init
-        - terraform destroy -auto-approve
-      when:
-        steps:
-          - name: askForPermissionForDestroy
-            on:
-             - approved
-
-    stage: "destroy"
+  
